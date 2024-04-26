@@ -10,8 +10,10 @@ export const WilayahIndonesia = () => {
    const [selectedKecamatan, setSelectedKecamatan] = useState('');
    const [kelurahan, setKelurahan] = useState([]);
 
+   const API_URL = 'https://www.emsifa.com/api-wilayah-indonesia/api/'
+
    useEffect(() => {
-      axios.get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+      axios.get(`${API_URL}provinces.json`)
          .then(response => {
             setProvinsi(response.data);
          });
@@ -19,7 +21,7 @@ export const WilayahIndonesia = () => {
 
    useEffect(() => {
       if (selectedProvinsi) {
-         axios.get(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinsi}.json`)
+         axios.get(`${API_URL}regencies/${selectedProvinsi}.json`)
             .then(response => {
                setKabupaten(response.data);
                setKecamatan([]);
@@ -30,7 +32,7 @@ export const WilayahIndonesia = () => {
 
    useEffect(() => {
       if (selectedKabupaten) {
-         axios.get(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${selectedKabupaten}.json`)
+         axios.get(`${API_URL}districts/${selectedKabupaten}.json`)
             .then(response => {
                setKecamatan(response.data);
                setKelurahan([]);
@@ -40,7 +42,7 @@ export const WilayahIndonesia = () => {
 
    useEffect(() => {
       if (selectedKecamatan) {
-         axios.get(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${selectedKecamatan}.json`)
+         axios.get(`${API_URL}villages/${selectedKecamatan}.json`)
             .then(response => {
                setKelurahan(response.data);
             });
@@ -49,11 +51,11 @@ export const WilayahIndonesia = () => {
 
    return (
       <div className="container mt-5">
-         <div className="my-4">
+         <div className="my-4 text-center">
             <h1 className='fw-semibold'>Daftar Wilayah Indonesia</h1>
          </div>
-         <div className="row mb-3">
-            <div className="col-md-4">
+         <div className="row mb-4 justify-content-center">
+            <div className="col-md-6 col-sm-12">
                <select className="form-select" onChange={(e) => setSelectedProvinsi(e.target.value)}>
                   <option value="">Pilih Provinsi</option>
                   {provinsi.map(p => (
@@ -62,8 +64,8 @@ export const WilayahIndonesia = () => {
                </select>
             </div>
          </div>
-         <div className="row mb-3">
-            <div className="col-md-4">
+         <div className="row mb-4 justify-content-center">
+            <div className="col-md-6 col-sm-12">
                <select className="form-select" onChange={(e) => setSelectedKabupaten(e.target.value)} disabled={!selectedProvinsi}>
                   <option value="">Pilih Kabupaten</option>
                   {kabupaten.map(k => (
@@ -72,8 +74,8 @@ export const WilayahIndonesia = () => {
                </select>
             </div>
          </div>
-         <div className="row mb-3">
-            <div className="col-md-4">
+         <div className="row mb-4 justify-content-center">
+            <div className="col-md-6 col-sm-12">
                <select className="form-select" onChange={(e) => setSelectedKecamatan(e.target.value)} disabled={!selectedKabupaten}>
                   <option value="">Pilih Kecamatan</option>
                   {kecamatan.map(k => (
@@ -82,8 +84,8 @@ export const WilayahIndonesia = () => {
                </select>
             </div>
          </div>
-         <div className="row mb-3">
-            <div className="col-md-4">
+         <div className="row mb-4 justify-content-center">
+            <div className="col-md-6 col-sm-12">
                <select className="form-select" onChange={(e) => setSelectedKecamatan(e.target.value)} disabled={!selectedKecamatan}>
                   <option value="">Pilih Kelurahan</option>
                   {kelurahan.map(k => (
@@ -92,6 +94,9 @@ export const WilayahIndonesia = () => {
                </select>
             </div>
          </div>
+         <footer style={{ position: "fixed", left: 0, bottom: 0, width: "100%", textAlign: "center", padding: "10px", backgroundColor: "none" }}>
+            © {new Date().getFullYear()} - <a href="https://github.com/mhdusop" style={{ textDecoration: "none", color: "#69b6fd" }}>Muhammad Yusof</a>.
+         </footer>
       </div>
    );
 };
